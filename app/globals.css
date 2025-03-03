@@ -8,12 +8,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: #f3f4f6;
+  --secondary-hover: #e5e7eb;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --secondary: #1f2937;
+    --secondary-hover: #374151;
   }
 }
 
@@ -21,4 +29,67 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Apply animations to chat elements */
+.message-enter {
+  animation: fadeIn 0.3s ease-out, slideInFromBottom 0.3s ease-out;
+}
+
+/* Markdown styling */
+.prose pre {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.prose code {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.dark .prose code {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .prose pre {
+  background-color: #1a1a1a;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(155, 155, 155, 0.7);
 }

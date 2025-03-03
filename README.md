@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chatbot with Ollama
 
-## Getting Started
+A modern, responsive chatbot application built with Next.js that connects to Ollama running on your Windows machine.
 
-First, run the development server:
+## Features
+
+- 💬 Real-time chat interface with streaming responses
+- 🎨 Modern UI with animations and transitions
+- 🌓 Dark mode support
+- 📝 Markdown rendering for code blocks and formatting
+- 💾 Message persistence using localStorage
+- 🧠 System prompt customization
+- 🔄 Chat history management
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or newer)
+- [Ollama](https://ollama.ai/) running on your Windows machine
+- A model downloaded in Ollama (e.g., llama2, mistral, etc.)
+
+## Setup Instructions
+
+### 1. Install Ollama on Windows
+
+1. Download and install Ollama from [https://ollama.ai/download](https://ollama.ai/download)
+2. Open Ollama and pull a model:
+   ```
+   ollama pull llama2
+   ```
+   (You can replace llama2 with any other model you prefer)
+
+3. Make sure Ollama is running on your Windows machine
+
+### 2. Find your Windows IP address
+
+1. Open Command Prompt on Windows
+2. Run `ipconfig`
+3. Look for your IPv4 Address (e.g., 192.168.1.X)
+
+### 3. Configure the Chatbot
+
+1. Open the `.env.local` file in the project root
+2. Update the `OLLAMA_URL` with your Windows IP:
+   ```
+   OLLAMA_URL=http://YOUR_WINDOWS_IP:11434
+   ```
+3. Update the `MODEL_NAME` if you're using a different model:
+   ```
+   MODEL_NAME=llama2
+   ```
+
+### 4. Install Dependencies and Run the Application
 
 ```bash
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Building for Production
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Docker Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+You can also deploy the application using Docker:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Build the Docker image
+docker build -t chatbot-ollama .
 
-## Deploy on Vercel
+# Run the container
+docker run -p 3000:3000 -e OLLAMA_URL=http://YOUR_WINDOWS_IP:11434 -e MODEL_NAME=llama2 chatbot-ollama
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Customization
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Changing the Model
+
+1. Update the `MODEL_NAME` in your `.env.local` file
+2. Make sure you've pulled the model in Ollama:
+   ```
+   ollama pull MODEL_NAME
+   ```
+
+### System Prompt
+
+You can customize the system prompt directly in the UI by clicking the "Edit System Prompt" button.
+
+## Troubleshooting
+
+### Connection Issues
+
+- Make sure Ollama is running on your Windows machine
+- Verify that your Windows firewall allows connections to port 11434
+- Check that the IP address in `.env.local` is correct
+- Ensure your Windows and development machines are on the same network
+
+### Model Issues
+
+- If you get errors about the model not being found, make sure you've pulled it in Ollama
+- Some models may require more memory than others
+
+## License
+
+MIT
+
+## Acknowledgements
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Ollama](https://ollama.ai/)
+- [React Markdown](https://github.com/remarkjs/react-markdown)
+- [Headless UI](https://headlessui.com/)
