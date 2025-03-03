@@ -8,20 +8,40 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
   --secondary: #f3f4f6;
   --secondary-hover: #e5e7eb;
+  --accent: #ec4899;
+  --accent-hover: #db2777;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.05);
+  --gradient-start: #6366f1;
+  --gradient-end: #ec4899;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #3b82f6;
-    --primary-hover: #60a5fa;
-    --secondary: #1f2937;
-    --secondary-hover: #374151;
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    --primary: #818cf8;
+    --primary-hover: #a5b4fc;
+    --secondary: #1e293b;
+    --secondary-hover: #334155;
+    --accent: #f472b6;
+    --accent-hover: #f9a8d4;
+    --success: #34d399;
+    --error: #f87171;
+    --warning: #fbbf24;
+    --info: #60a5fa;
+    --card-bg: #1e293b;
+    --card-border: rgba(255, 255, 255, 0.05);
+    --gradient-start: #818cf8;
+    --gradient-end: #f472b6;
   }
 }
 
@@ -29,6 +49,31 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Gradients */
+.gradient-bg {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Custom animations */
@@ -47,9 +92,74 @@ body {
   50% { opacity: 0.5; }
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* Apply animations to chat elements */
 .message-enter {
   animation: fadeIn 0.3s ease-out, slideInFromBottom 0.3s ease-out;
+}
+
+.gradient-animate {
+  background: linear-gradient(270deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* Card styles */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.dark .card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styles */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--foreground);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-hover);
+}
+
+.btn-accent {
+  background-color: var(--accent);
+  color: white;
+}
+
+.btn-accent:hover {
+  background-color: var(--accent-hover);
 }
 
 /* Markdown styling */

@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 
-// Update this to match your Windows machine's IP and Ollama port
-const OLLAMA_URL = process.env.OLLAMA_URL || 'http://YOUR_WINDOWS_IP:11434';
-const MODEL_NAME = process.env.MODEL_NAME || 'llama2';
+// Update this to match your Ollama URL
+const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
+const DEFAULT_MODEL = process.env.MODEL_NAME || 'llama3.2';
 
 export async function POST(req: Request) {
   try {
-    const { message, systemPrompt, stream } = await req.json();
+    const { message, systemPrompt, stream, model } = await req.json();
 
     if (!message) {
       return NextResponse.json(
@@ -14,6 +14,9 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+
+    // Use the provided model or fall back to the default
+    const modelToUse = model || DEFAULT_MODEL;
 
     // If streaming is requested, handle it differently
     if (stream) {
@@ -27,7 +30,7 @@ export async function POST(req: Request) {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                model: MODEL_NAME,
+                model: modelToUse,
                 prompt: message,
                 system: systemPrompt || '',
                 stream: true,
@@ -91,7 +94,7 @@ export async function POST(req: Request) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: MODEL_NAME,
+          model: modelToUse,
           prompt: message,
           system: systemPrompt || '',
           stream: false,
