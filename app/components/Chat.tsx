@@ -262,12 +262,12 @@ export default function Chat() {
             >
               {availableModels.length > 0 ? (
                 availableModels.map((model) => (
-                  <option key={model} value={model}>
+                  <option key={model} value={model} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     {model}
                   </option>
                 ))
               ) : (
-                <option value={modelName}>{modelName}</option>
+                <option value={modelName} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">{modelName}</option>
               )}
             </select>
           </div>
@@ -302,8 +302,8 @@ export default function Chat() {
             key={message.id}
             className={`p-4 rounded-lg message-enter ${
               message.role === 'user'
-                ? 'bg-primary/10 ml-auto max-w-[80%] dark:bg-primary/20'
-                : 'card mr-auto max-w-[80%]'
+                ? 'bg-primary/10 ml-auto max-w-[80%] dark:bg-primary/20 text-gray-900 dark:text-white'
+                : 'card mr-auto max-w-[80%] bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
             } transition-all duration-300 ease-in-out`}
           >
             <div className="flex items-center gap-2 mb-2">
@@ -316,13 +316,13 @@ export default function Chat() {
                   <FaRobot className="text-white text-xs" />
                 </div>
               )}
-              <span className="text-xs font-medium">
+              <span className="text-xs font-medium text-gray-900 dark:text-white">
                 {message.role === 'user' ? 'Tú' : 'Asistente'}
               </span>
               {message.role === 'assistant' && (
                 <button
                   onClick={() => copyToClipboard(message.content)}
-                  className="ml-auto text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                  className="ml-auto text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                   aria-label="Copiar mensaje"
                   title="Copiar mensaje"
                 >
@@ -330,31 +330,31 @@ export default function Chat() {
                 </button>
               )}
             </div>
-            <div className="prose prose-sm max-w-none dark:prose-invert">
+            <div className="prose prose-sm max-w-none dark:prose-invert text-gray-900 dark:text-white">
               <ReactMarkdown>{message.content}</ReactMarkdown>
             </div>
           </div>
         ))}
         {streamingMessage && (
-          <div className="card p-4 rounded-lg mr-auto max-w-[80%] message-enter">
+          <div className="card p-4 rounded-lg mr-auto max-w-[80%] message-enter bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-6 h-6 rounded-full gradient-bg flex items-center justify-center">
                 <FaRobot className="text-white text-xs" />
               </div>
-              <span className="text-xs font-medium">Asistente</span>
+              <span className="text-xs font-medium text-gray-900 dark:text-white">Asistente</span>
             </div>
-            <div className="prose prose-sm max-w-none dark:prose-invert">
+            <div className="prose prose-sm max-w-none dark:prose-invert text-gray-900 dark:text-white">
               <ReactMarkdown>{streamingMessage}</ReactMarkdown>
             </div>
           </div>
         )}
         {isLoading && !streamingMessage && (
-          <div className="card p-4 rounded-lg mr-auto max-w-[80%] message-enter">
+          <div className="card p-4 rounded-lg mr-auto max-w-[80%] message-enter bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-6 h-6 rounded-full gradient-bg flex items-center justify-center">
                 <FaRobot className="text-white text-xs" />
               </div>
-              <span className="text-xs font-medium">Asistente</span>
+              <span className="text-xs font-medium text-gray-900 dark:text-white">Asistente</span>
             </div>
             <div className="flex space-x-2 justify-center items-center h-5">
               <div className="h-2 w-2 bg-primary rounded-full animate-bounce"></div>
@@ -371,7 +371,7 @@ export default function Chat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Escribe tu mensaje..."
-          className="flex-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+          className="flex-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
           disabled={isLoading}
         />
         <button
