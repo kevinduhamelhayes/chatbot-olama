@@ -204,7 +204,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col h-[80vh] max-w-3xl mx-auto p-4">
+    <div className="flex flex-col h-[60vh] max-w-3xl mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold gradient-text">Chat con {modelName}</h2>
         <div className="flex gap-2">
@@ -252,13 +252,13 @@ export default function Chat() {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <div className="mb-4 p-4 card">
+        <div className="mb-4 p-4 card bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
           <div className="mb-3">
-            <label className="block text-sm font-medium mb-2">Modelo:</label>
+            <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">Modelo:</label>
             <select
               value={modelName}
               onChange={(e) => setModelName(e.target.value)}
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm dark:bg-gray-800 dark:border-gray-700"
+              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
             >
               {availableModels.length > 0 ? (
                 availableModels.map((model) => (
@@ -272,11 +272,11 @@ export default function Chat() {
             </select>
           </div>
           
-          <label className="block text-sm font-medium mb-2">Instrucciones del sistema:</label>
+          <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">Instrucciones del sistema:</label>
           <textarea
             value={systemPrompt}
             onChange={(e) => setSystemPrompt(e.target.value)}
-            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm dark:bg-gray-800 dark:border-gray-700"
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
             rows={3}
           />
           <p className="text-xs text-gray-500 mt-1 dark:text-gray-400">

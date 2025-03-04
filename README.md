@@ -2,6 +2,12 @@
 
 A modern, responsive chatbot application built with Next.js that connects to Ollama running on your Windows machine.
 
+![Chatbot with Ollama](/public/captura1.png)
+
+Una interfaz moderna y elegante para interactuar con modelos de lenguaje locales a través de Ollama.
+
+![Chat Interface](/public/captura2.png)
+
 ## Features
 
 - 💬 Real-time chat interface with streaming responses
