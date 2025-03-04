@@ -5,6 +5,7 @@ import { Transition } from '@headlessui/react';
 import ReactMarkdown from 'react-markdown';
 import { FiSend, FiTrash2, FiSettings, FiCopy, FiDownload, FiMoon, FiSun } from 'react-icons/fi';
 import { FaRobot, FaUser } from 'react-icons/fa';
+import { useTheme } from './ThemeProvider';
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -18,7 +19,7 @@ export default function Chat() {
   const [isLoading, setIsLoading] = useState(false);
   const [systemPrompt, setSystemPrompt] = useState('You are a helpful AI assistant.');
   const [showSystemPrompt, setShowSystemPrompt] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const { theme, setTheme } = useTheme();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [streamingMessage, setStreamingMessage] = useState('');
   const [modelName, setModelName] = useState('llama3.2');
@@ -38,16 +39,6 @@ export default function Chat() {
     const savedSystemPrompt = localStorage.getItem('systemPrompt');
     if (savedSystemPrompt) {
       setSystemPrompt(savedSystemPrompt);
-    }
-
-    // Check for theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
-    } else {
-      setTheme('light');
-      document.documentElement.classList.remove('dark');
     }
 
     // Fetch available models
@@ -182,15 +173,7 @@ export default function Chat() {
   };
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   const copyToClipboard = (text: string) => {
@@ -229,6 +212,7 @@ export default function Chat() {
             onClick={toggleTheme}
             className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             aria-label={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
+            title={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
           >
             {theme === 'light' ? <FiMoon /> : <FiSun />}
           </button>
@@ -236,6 +220,7 @@ export default function Chat() {
             onClick={toggleSystemPrompt}
             className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             aria-label="Configuración"
+            title="Configuración"
           >
             <FiSettings />
           </button>
@@ -243,6 +228,7 @@ export default function Chat() {
             onClick={downloadChat}
             className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             aria-label="Descargar chat"
+            title="Descargar chat"
           >
             <FiDownload />
           </button>
@@ -250,6 +236,7 @@ export default function Chat() {
             onClick={clearChat}
             className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-red-500"
             aria-label="Limpiar chat"
+            title="Limpiar chat"
           >
             <FiTrash2 />
           </button>
@@ -337,6 +324,7 @@ export default function Chat() {
                   onClick={() => copyToClipboard(message.content)}
                   className="ml-auto text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   aria-label="Copiar mensaje"
+                  title="Copiar mensaje"
                 >
                   <FiCopy size={14} />
                 </button>
@@ -391,6 +379,7 @@ export default function Chat() {
           disabled={isLoading || !input.trim()}
           className="btn btn-primary p-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Enviar mensaje"
+          title="Enviar mensaje"
         >
           <FiSend />
         </button>

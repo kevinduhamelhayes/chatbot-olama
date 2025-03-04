@@ -24,25 +24,27 @@
   --gradient-end: #ec4899;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f172a;
-    --foreground: #f8fafc;
-    --primary: #818cf8;
-    --primary-hover: #a5b4fc;
-    --secondary: #1e293b;
-    --secondary-hover: #334155;
-    --accent: #f472b6;
-    --accent-hover: #f9a8d4;
-    --success: #34d399;
-    --error: #f87171;
-    --warning: #fbbf24;
-    --info: #60a5fa;
-    --card-bg: #1e293b;
-    --card-border: rgba(255, 255, 255, 0.05);
-    --gradient-start: #818cf8;
-    --gradient-end: #f472b6;
-  }
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --primary: #818cf8;
+  --primary-hover: #a5b4fc;
+  --secondary: #1e293b;
+  --secondary-hover: #334155;
+  --accent: #f472b6;
+  --accent-hover: #f9a8d4;
+  --success: #34d399;
+  --error: #f87171;
+  --warning: #fbbf24;
+  --info: #60a5fa;
+  --card-bg: #1e293b;
+  --card-border: rgba(255, 255, 255, 0.05);
+  --gradient-start: #818cf8;
+  --gradient-end: #f472b6;
+}
+
+html.dark {
+  background-color: var(--background);
 }
 
 body {
