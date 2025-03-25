@@ -7,12 +7,25 @@ import { FiSend, FiTrash2, FiSettings, FiCopy, FiDownload, FiMoon, FiSun } from 
 import { FaRobot, FaUser } from 'react-icons/fa';
 import { useTheme } from './ThemeProvider';
 
+/**
+ * Interfaz para el formato de los mensajes en el chat
+ */
 interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
   id: string;
 }
 
+/**
+ * Componente principal del chat
+ * 
+ * Gestiona la interfaz de usuario para el chat, incluyendo:
+ * - Envío y recepción de mensajes
+ * - Carga de modelos disponibles
+ * - Persistencia de mensajes en localStorage
+ * - Cambio de tema (claro/oscuro)
+ * - Gestión del prompt de sistema
+ */
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -25,7 +38,10 @@ export default function Chat() {
   const [modelName, setModelName] = useState('llama3.2');
   const [availableModels, setAvailableModels] = useState<string[]>([]);
 
-  // Load messages from localStorage on component mount
+  /**
+   * Carga los mensajes y el prompt del sistema desde localStorage al iniciar
+   * También obtiene la lista de modelos disponibles
+   */
   useEffect(() => {
     const savedMessages = localStorage.getItem('chatMessages');
     if (savedMessages) {
@@ -45,7 +61,9 @@ export default function Chat() {
     fetchModels();
   }, []);
 
-  // Fetch available models from Ollama
+  /**
+   * Obtiene la lista de modelos disponibles en Ollama
+   */
   const fetchModels = async () => {
     try {
       const response = await fetch('/api/models');
@@ -66,27 +84,40 @@ export default function Chat() {
     }
   };
 
-  // Save messages to localStorage whenever they change
+  /**
+   * Guarda los mensajes en localStorage cuando cambian
+   */
   useEffect(() => {
     if (messages.length > 0) {
       localStorage.setItem('chatMessages', JSON.stringify(messages));
     }
   }, [messages]);
 
-  // Save system prompt to localStorage whenever it changes
+  /**
+   * Guarda el prompt del sistema en localStorage cuando cambia
+   */
   useEffect(() => {
     localStorage.setItem('systemPrompt', systemPrompt);
   }, [systemPrompt]);
 
-  // Scroll to bottom when messages change
+  /**
+   * Desplaza automáticamente hacia el último mensaje
+   */
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, streamingMessage]);
 
+  /**
+   * Genera un ID único para cada mensaje
+   */
   const generateMessageId = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   };
 
+  /**
+   * Maneja el envío de mensajes al API
+   * Utiliza streaming para mostrar la respuesta a medida que se genera
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -125,6 +156,7 @@ export default function Chat() {
         throw new Error('Response body is null');
       }
 
+      // Procesa la respuesta en streaming
       const reader = response.body.getReader();
       let accumulatedResponse = '';
 
@@ -132,13 +164,13 @@ export default function Chat() {
         const { done, value } = await reader.read();
         if (done) break;
 
-        // Convert the Uint8Array to a string
+        // Convierte Uint8Array a string
         const chunk = new TextDecoder().decode(value);
         accumulatedResponse += chunk;
         setStreamingMessage(accumulatedResponse);
       }
 
-      // Add the complete message to the chat history
+      // Añade el mensaje completo al historial de chat
       const assistantMessage: Message = {
         role: 'assistant',
         content: accumulatedResponse,
@@ -149,7 +181,7 @@ export default function Chat() {
       setStreamingMessage('');
     } catch (error) {
       console.error('Error:', error);
-      // Add error message to chat
+      // Añade un mensaje de error al chat
       setMessages((prev) => [
         ...prev,
         { 
@@ -163,19 +195,31 @@ export default function Chat() {
     }
   };
 
+  /**
+   * Borra todo el historial de chat
+   */
   const clearChat = () => {
     setMessages([]);
     localStorage.removeItem('chatMessages');
   };
 
+  /**
+   * Muestra/oculta el editor del prompt de sistema
+   */
   const toggleSystemPrompt = () => {
     setShowSystemPrompt(!showSystemPrompt);
   };
 
+  /**
+   * Cambia entre tema claro y oscuro
+   */
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
+  /**
+   * Copia el texto al portapapeles
+   */
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(
       () => {
@@ -187,6 +231,9 @@ export default function Chat() {
     );
   };
 
+  /**
+   * Descarga el historial de chat como archivo de texto
+   */
   const downloadChat = () => {
     const chatText = messages
       .map((msg) => `${msg.role === 'user' ? 'Usuario' : 'Asistente'}: ${msg.content}`)
